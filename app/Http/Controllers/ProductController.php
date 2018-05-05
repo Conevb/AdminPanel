@@ -6,13 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Product;
 use App\Http\Resources\Product as ProductResource;
+use Cart;
 
 class ProductController extends Controller
 {
   // Display list of products
-  public function index()
+  public function index($search='')
   {
-    $products = Product::with('category')->paginate(15);
+    $perPage = 15;
+
+    if($search=='') {
+      $products = Product::with('category')->paginate($perPage);
+    }else{
+      $products = Product::with('category')->where('title', 'like', "%$search%")->paginate($perPage);
+    }
     return ProductResource::collection($products);
   }
 

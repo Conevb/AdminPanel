@@ -13,7 +13,11 @@
 <body>
 
   <div id="app">
-    @yield('content')
+    <navbar-component class="mb-5"></navbar-component>
+
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
   
 <script src="{{ asset('js/app.js') }}"></script>

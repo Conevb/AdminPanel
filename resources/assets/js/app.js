@@ -24,7 +24,7 @@ import ProductComponent from './components/ProductComponent.vue';
 
 const routes = [
   { path: '/', component: ProductsListComponent},
-  { path: '/proizvod/:id', component: ProductComponent }
+  { path: '/proizvod/:id', component: ProductComponent, props: true  }
 ];
 
 const router = new VueRouter({
@@ -36,6 +36,7 @@ const app = new Vue({
     el: '#app',
     router,
     components: {
-      NavbarComponent
+      NavbarComponent,
+      ProductsListComponent,
     }
 });
