@@ -9,12 +9,14 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from './Store.js';
 
 Vue.use(VueRouter);
 
-import ProductsListComponent from './components/ProductsListComponent.vue';
-import NavbarComponent from './components/NavbarComponent.vue';
-import ProductComponent from './components/ProductComponent.vue'; 
+import ProductsListComponent from './components/ProductsListComponent.vue'
+import NavbarComponent from './components/NavbarComponent.vue'
+import ProductComponent from './components/ProductComponent.vue'
+import CartComponent from './components/CartComponent.vue'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -24,7 +26,8 @@ import ProductComponent from './components/ProductComponent.vue';
 
 const routes = [
   { path: '/', component: ProductsListComponent},
-  { path: '/proizvod/:id', component: ProductComponent, props: true  }
+  { path: '/proizvod/:id', component: ProductComponent, props: true  },
+  { path: '/korpa', component: CartComponent }
 ];
 
 const router = new VueRouter({
@@ -35,8 +38,8 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
+    store,
     components: {
       NavbarComponent,
-      ProductsListComponent,
     }
 });

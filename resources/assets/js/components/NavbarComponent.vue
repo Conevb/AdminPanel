@@ -11,14 +11,50 @@
           <li class="nav-item active">
             <router-link to="/" class="nav-link" >Pocetna</router-link>
           </li>
+          <li class="nav-item active">
+            <router-link to="/korpa" class="nav-link" >Korpa</router-link>
+          </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" @click="toggleDropdown()">
+            <i class="fa fa-shopping-cart"></i> {{numberOfProducts}}
+          </button>
+          <div class="dropdown-menu dropdown-menu-right" v-bind:class="{show: dropdown}">
+            <cart-component></cart-component>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+import CartComponent from './CartComponent.vue'
+import {mapGetters} from 'vuex'
+
+export default {
+  data(){
+    return {
+      dropdown: false
+    }
+  },
+  components: {
+    CartComponent
+  },
+  computed: {
+    ...mapGetters({
+      numberOfProducts: 'numberOfProducts'
+    })
+  },
+  methods: {
+    toggleDropdown(){
+      this.dropdown = !this.dropdown
+    }
+  }
+}
+</script>
+
+
+
 
 

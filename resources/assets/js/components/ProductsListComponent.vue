@@ -19,6 +19,7 @@
             <router-link v-bind:to="{ path: 'proizvod/1', params: {id: product.id} }" >{{ product.title }} </router-link>
             <h6 class="card-subtitle mb-2 text-muted">{{ product.price }} din</h6>
             <p class="card-text">{{ product.description }} </p>
+            <button @click="addToCart(product)" class="btn btn-primary">Dodaj</button>
           </div>
         </div>
       </div>
@@ -27,6 +28,8 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
   data: function(){
     return {
@@ -35,11 +38,20 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      numberOfProducts: 'numberOfProducts'
+    })
+  },
+
   created(){
     this.fetchProducts()
   },
 
   methods: {
+    ...mapActions([
+      'addToCart'
+    ]),
     fetchProducts(url='/api/products'){
       fetch(url)
         .then(res => res.json())
