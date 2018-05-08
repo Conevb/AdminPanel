@@ -3,7 +3,6 @@
     <table v-if="numberOfProducts" class="table">
       <thead>
         <tr>
-          <th>id</th>
           <th>Naziv</th>
           <th>Cena</th>
           <th>Kolicina</th>
@@ -13,12 +12,15 @@
       </thead>
       <tbody>
         <tr v-for="record in cartContent" v-bind:key="record.product.id">
-          <td>{{ record.product.id }}</td>
           <td>{{ record.product.title }}</td>
           <td>{{ record.product.price }}</td>
-          <td>{{ record.quantity }}</td>
+          <td><input type="number" :value="record.quantity" @input="updateCart({id: record.product.id, qty: parseInt($event.target.value)})"></td>
           <td>{{ record.product.price * record.quantity }}</td>
-          <td><button @click="removeFromCart(record.product.id)">Ukloni</button></td>
+          <td>
+            <button @click="removeFromCart(record.product.id)" class="close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -27,7 +29,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 
 export default {
   computed: {
@@ -37,9 +39,10 @@ export default {
     })
   },
   methods: {
-    ...mapActions([
-      'removeFromCart'
-    ])
+    ...mapMutations({
+      updateCart: 'UPDATE_CART',
+      removeFromCart: 'REMOVE_FROM_CART'
+    }),
   }
 }
 </script>

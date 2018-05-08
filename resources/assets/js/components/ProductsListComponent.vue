@@ -12,28 +12,36 @@
         </form>
       </div>
     </div>
+
+    <pagination-component :links="links" :meta="meta" @pageLink="fetchProducts"></pagination-component>
+
     <div class="row">
       <div class="col-md-3 mb-3 d-flex" v-for="product in products" v-bind:key="product.id">
         <div class="card">
           <div class="card-body">
             <router-link v-bind:to="{ path: 'proizvod/1', params: {id: product.id} }" >{{ product.title }} </router-link>
-            <h6 class="card-subtitle mb-2 text-muted">{{ product.price }} din</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{ product.category.name }} din</h6>
             <p class="card-text">{{ product.description }} </p>
             <button @click="addToCart(product)" class="btn btn-primary">Dodaj</button>
           </div>
         </div>
       </div>
     </div>
+
+    <pagination-component :links="links" :meta="meta" @pageLink="fetchProducts"></pagination-component>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
+import PaginationComponent from './PaginationComponent.vue'
 
 export default {
   data: function(){
     return {
       products: [],
+      links: {},
+      meta: {},
       searchInput: ''
     }
   },
@@ -49,19 +57,25 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'addToCart'
-    ]),
+    ...mapMutations({
+      addToCart: 'ADD_TO_CART'
+    }),
     fetchProducts(url='/api/products'){
       fetch(url)
         .then(res => res.json())
         .then(res => {
-          this.products = res.data;
+          this.products = res.data
+          this.links = res.links
+          this.meta = res.meta
         })
     },
     searchProducts(){
       this.fetchProducts('/api/products/'+this.searchInput)
     },
+  },
+
+  components: {
+    PaginationComponent
   }
 };
 </script>

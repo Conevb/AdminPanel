@@ -31,20 +31,11 @@ export default new Vuex.Store({
     },
     REMOVE_FROM_CART(state, id){
       const index = state.cart.indexOf(state.cart.find(p => p.product.id == id))
-      if(this.getters.numberOfProducts <= 1){
-        state.cart = []
-      }
-      if(index){
-        state.cart.splice(index, 1)
-      }
-    }
-  },
-  actions: {
-    addToCart({commit}, product){
-      commit('ADD_TO_CART', product)
+      state.cart.splice(index, 1)
     },
-    removeFromCart({commit}, id){
-      commit('REMOVE_FROM_CART', id)
+    UPDATE_CART(state, {id, qty}){
+      const index = state.cart.indexOf(state.cart.find(p => p.product.id == id))
+      state.cart[index].quantity = qty 
     }
   }
 })
